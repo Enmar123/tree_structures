@@ -24,23 +24,31 @@ class Node:
         
     #recursive check function that finds an empty slot for data
     def check(self, pend):
-        self.pend = pend
         
         if self.data == None:
             self.data = pend
-            print("object allocated = ", self.pend)
+            print("object allocated = ", pend)
+            
         elif self.data != None:
             if pend < self.data:
-                self.build(0)
-                self.branch[0].check(pend)
+                if self.branch[0] != None:
+                    self.branch[0].check(pend)
+                elif self.branch[0] == None:
+                    self.build(0)
+                    self.branch[0].check(pend)
+                    
             if pend > self.data:
-                self.build(1)
-                self.branch[1].check(pend)
+                if self.branch[1] != None:
+                    self.branch[1].check(pend)
+                elif self.branch[1] == None:
+                    self.build(1)
+                    self.branch[1].check(pend)
 
             
     def build(self,num):
         self.branch[num] = Node()
         self.branch[num].root = self
+
     
             
 
@@ -56,6 +64,9 @@ class Tree:
             data = pending[i]
             self.root.check(data)
         
+   
+    
+    
     def order(self):
         order = "Not Implemented Yet" 
         
@@ -65,7 +76,7 @@ class Tree:
     
 if __name__=="__main__":
     
-    pending = [5, 6, 10, 1, 7, 3]
+    pending = [5, 6, 10, 1, 7, 3, -1, 0]
     tree = Tree(pending)
     tree.build()
     tree.order()
